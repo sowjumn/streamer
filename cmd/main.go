@@ -15,9 +15,13 @@ import (
 func main() {
 
 	r := chi.NewRouter()
+	fileName := flag.String("fname", "cmd/baby.txt", "Please specify a file to stream")
+	port := flag.String("port", "3000", "Please specify a port number")
+
+	flag.Parse()
+
 	r.Get("/stream", func(w http.ResponseWriter, r *http.Request) {
-		fileName := flag.String("name", "cmd/baby.txt", "Please specify a file to stream")
-		flag.Parse()
+
 		src, err := os.Open(*fileName)
 		if err != nil {
 			fmt.Printf("Fail to open file")
@@ -56,6 +60,6 @@ func main() {
 
 	})
 
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":"+*port, r)
 
 }
